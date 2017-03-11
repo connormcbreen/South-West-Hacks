@@ -1,3 +1,7 @@
+/*
+This was adapted from a public file on Github that made use of a simple Alexa skill
+*/
+
 //set up the file input stream
 var fs = require('fs');
 
@@ -23,23 +27,28 @@ var handlers = {
 		this.emit(':ask', 'Hello! What kind of symptoms are you having?', 'Im sorry. Tell me again?');
     },
 
-	//called when user lists ingredients in question
+	//called when user lists symptoms
 	'DecideRecipe': function () {
-		//get the ingredient data
+		//get the ingredient data from users voice using AMAZON.ingredients slot
 		var ingredientStr = this.event.request.intent.slots.Ingredients.value;
 		var ingredientList = ingredientStr.split("and");
 		
-		//load the json file through file sync
-		var recipeList = JSON.parse(fs.readFileSync("recipes.json", 'utf8'));
-		var recipes = recipeList.recipes;
+		//load the conditions.json file through file sync. This is the only time we use the json database file.
+		    //recipeList
+		var conditionList = JSON.parse(fs.readFileSync("conditions.json", 'utf8'));
+		var recipes = conditionList.recipes;
 		
-		var suggestedRecipe = null;
-		var points = 0;
-		var scores = [];
+		
+		var suggestedCondition = null;	//will hold the name of the Doctor's suggestion
+		var points = 0;			//counts the number of times the users symptom matches a symptom from the database
+		var scores = [];		//an array that holds
+		
+		
 		for (var i = 0; i < recipes.length; ++i) {
 			for (var j = 0; j < recipes[i].ingredients.length; ++j) {
 				var realIngred = recipes[i].ingredients[j];
 				
+				//compares individual recipe ingredients(realIngred) with all ingredients given by user(ingredientList)
 				for (var k = 0; k < ingredientList.length; ++k) {
 					if (ingredientList[k] == realIngred)
 						++points;
@@ -50,6 +59,7 @@ var handlers = {
 			points = 0;
 		}
 		
+		
 		var bestRecipe = 0;
 		var maxscore = 0;
 		for (var i = 0; i < scores; ++i) {
@@ -59,7 +69,7 @@ var handlers = {
 			}
 		}
 		
-		suggestedRecipe = recipes[bestRecipe].name;
+		suggestedCondition = recipes[bestRecipe].name;
 
 		//print results
 		this.emit(':tell', 'Hmmm...with the ingredients you have, I would suggest ' + suggestedRecipe);
@@ -102,8 +112,8 @@ var languageStrings = {
 			"WELCOME_REPROMT": "List your symptoms, or ask for help by saying: help.",
 			"DISPLAY_CARD_TITLE": "%s  - Symptoms using %s.",
 			"HELP_MESSAGE": "List your symptoms, and I can help you find recipes using those ingredients, or say exit. List your ingredients.",
-			"HELP_REPROMT": "I can find recipes using the ingredients you tell me. List your ingredients",
-			"STOP_MESSAGE": "Goodbye!"
+			"HELP_REPROMT": "I can find illnesses and diseases using the symptoms you say to me. Tell me your symptoms!",
+			"STOP_MESSAGE": "See you later!"
 		}
 	}
 };
