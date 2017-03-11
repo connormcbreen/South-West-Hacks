@@ -31,8 +31,8 @@ var handlers = {
 	//DecideRecipe
 	'DecideRecipe': function () {
 		//get the ingredient data from users voice using AMAZON.ingredients slot
-		var symptomStr = this.event.request.intent.slots.Ingredients.value;
-		var symptomList = symptomStr.split("and");
+		var ingredientStr = this.event.request.intent.slots.Ingredients.value;
+		var ingredientList = ingredientStr.split("and");
 		
 		//load the conditions.json file through file sync. This is the only time we use the json database file.
 		    //recipeList
@@ -51,8 +51,8 @@ var handlers = {
 				var realIngred = conditions[i].symptoms[j];
 				
 				//compares individual recipe ingredients(realIngred) with all ingredients given by user(ingredientList)
-				for (var k = 0; k < symptomList.length; ++k) {
-					if (symptomList[k] == realIngred)
+				for (var k = 0; k < ingredientList.length; ++k) {
+					if (ingredientList[k] == realIngred)
 						++points;
 				}
 			}
@@ -64,17 +64,26 @@ var handlers = {
 		
 		var bestRecipe = 0;
 		var maxscore = 0;
-		for (var i = 0; i < scores; ++i) {
-			if (scores[i] > maxscore) {
+		var temp = null;
+		for (var i = 0; i < scores; ++i) 
+		{
+			if (scores[i] > maxscore) 
+			{
 				maxscore = scores[i];
+				bestRecipe = i;
+				suggestedCondition = conditions[bestRecipe].name;
+			}
+			else if(scores[i] == maxscore)
+			{
+				temp = conditions[bestRecipe].name.concat(" or ");
+				suggestedCondition = temp.concat(conditions[i].name);
 				bestRecipe = i;
 			}
 		}
 		
-		suggestedCondition = conditions[bestRecipe].name;
 
 		//print results
-		this.emit(':tell', 'Hmmm...with the ingredients you have, I would suggest ' + suggestedCondition);
+		this.emit(':tell', 'Based off the symptoms you described, you could have ' + suggestedCondition);
     },
 	
 	//read a new recipe from the top list
