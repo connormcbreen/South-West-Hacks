@@ -1,0 +1,24 @@
+{
+	"intents" : [
+		{
+			"intent":"DecideIngredients"
+		},
+		{
+			"intent":"DecideRecipe",
+			"slots": [
+              	{
+					"name" : "Ingredients",
+					"type" : "AMAZON.Food"
+                }
+              ]
+		},
+		{
+			"intent":"Next"
+		},
+		
+		{"intent": "AMAZON.RepeatIntent"},
+	    {"intent": "AMAZON.HelpIntent"},
+	    {"intent": "AMAZON.StopIntent"},
+		{"intent": "AMAZON.CancelIntent"}
+	]
+}
