@@ -1,10 +1,10 @@
-//file input stream
+//set up the file input stream
 var fs = require('fs');
 
-//Alexa object courtesy of the new alexa sdk
+//set up the Alexa object courtesy of the new alexa sdk
 var Alexa = require('alexa-sdk');
 
-//main function
+//call the main function
 exports.handler = function(event, context, callback){
     var alexa = Alexa.handler(event, context);
 	alexa.registerHandlers(handlers);
@@ -13,14 +13,14 @@ exports.handler = function(event, context, callback){
 
 //handles the intents
 var handlers = {
-	//instant called on launch
+	//this function is called when the invocation name is called
 	'LaunchRequest': function () {
-        this.emit('DecideIngredients');
+        this.emit('TellMeSymptoms');
     },
 
 	//called when user does not include ingredinets themselves
-    'DecideIngredients': function () {
-		this.emit(':ask', 'What ingredients do you have?', 'Im sorry. What was that?');
+    'TellMeSymptoms': function () {
+		this.emit(':ask', 'Hello! What kind of symptoms are you having?', 'Im sorry. Tell me again?');
     },
 
 	//called when user lists ingredients in question
@@ -97,11 +97,11 @@ var handlers = {
 var languageStrings = {
 	"en-US": {
 		"translation": {
-			"SKILL_NAME": "Koobkooc",
-			"WELCOME_MESSAGE": "Welcome to %s. List your ingredients.",
-			"WELCOME_REPROMT": "List your ingredients, or say help.",
-			"DISPLAY_CARD_TITLE": "%s  - Recipe using %s.",
-			"HELP_MESSAGE": "List your ingredients, and I can help you find recipes using those ingredients, or say exit. List your ingredients.",
+			"SKILL_NAME": "Vocal Doc",
+			"WELCOME_MESSAGE": "Welcome to %s. List your symptoms.",
+			"WELCOME_REPROMT": "List your symptoms, or ask for help by saying: help.",
+			"DISPLAY_CARD_TITLE": "%s  - Symptoms using %s.",
+			"HELP_MESSAGE": "List your symptoms, and I can help you find recipes using those ingredients, or say exit. List your ingredients.",
 			"HELP_REPROMT": "I can find recipes using the ingredients you tell me. List your ingredients",
 			"STOP_MESSAGE": "Goodbye!"
 		}
