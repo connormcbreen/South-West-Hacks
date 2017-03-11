@@ -31,8 +31,8 @@ var handlers = {
 	//DecideRecipe
 	'DecideRecipe': function () {
 		//get the ingredient data from users voice using AMAZON.ingredients slot
-		var ingredientStr = this.event.request.intent.slots.Ingredients.value;
-		var ingredientList = ingredientStr.split("and");
+		var symptomStr = this.event.request.intent.slots.Ingredients.value;
+		var symptomList = symptomStr.split("and");
 		
 		//load the conditions.json file through file sync. This is the only time we use the json database file.
 		    //recipeList
@@ -51,8 +51,8 @@ var handlers = {
 				var realIngred = conditions[i].symptoms[j];
 				
 				//compares individual recipe ingredients(realIngred) with all ingredients given by user(ingredientList)
-				for (var k = 0; k < ingredientList.length; ++k) {
-					if (ingredientList[k] == realIngred)
+				for (var k = 0; k < symptomList.length; ++k) {
+					if (symptomList[k] == realIngred)
 						++points;
 				}
 			}
