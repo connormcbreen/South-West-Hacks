@@ -36,7 +36,8 @@ var handlers = {
 		//load the conditions.json file through file sync. This is the only time we use the json database file.
 		    //recipeList
 		var conditionList = JSON.parse(fs.readFileSync("conditions.json", 'utf8'));
-		var recipes = conditionList.recipes;
+		   //recipes
+		var conditions = conditionList.conditions;
 		
 		
 		var suggestedCondition = null;	//will hold the name of the Doctor's suggestion
@@ -44,9 +45,9 @@ var handlers = {
 		var scores = [];		//an array that holds
 		
 		
-		for (var i = 0; i < recipes.length; ++i) {
-			for (var j = 0; j < recipes[i].ingredients.length; ++j) {
-				var realIngred = recipes[i].ingredients[j];
+		for (var i = 0; i < conditions.length; ++i) {
+			for (var j = 0; j < conditions[i].symptoms.length; ++j) {
+				var realIngred = conditions[i].symptoms[j];
 				
 				//compares individual recipe ingredients(realIngred) with all ingredients given by user(ingredientList)
 				for (var k = 0; k < ingredientList.length; ++k) {
@@ -69,10 +70,10 @@ var handlers = {
 			}
 		}
 		
-		suggestedCondition = recipes[bestRecipe].name;
+		suggestedCondition = conditions[bestRecipe].name;
 
 		//print results
-		this.emit(':tell', 'Hmmm...with the ingredients you have, I would suggest ' + suggestedRecipe);
+		this.emit(':tell', 'Hmmm...with the ingredients you have, I would suggest ' + suggestedCondition);
     },
 	
 	//read a new recipe from the top list
