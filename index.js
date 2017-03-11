@@ -1,5 +1,5 @@
 /*
-This was adapted from a public file on Github that made use of a simple Alexa skill
+This was adapted and repurposed from a public file on Github that made use of a simple Alexa skill using slot types
 */
 
 //set up the file input stream
@@ -28,6 +28,7 @@ var handlers = {
     },
 
 	//called when user lists symptoms
+	//DecideRecipe
 	'DecideRecipe': function () {
 		//get the ingredient data from users voice using AMAZON.ingredients slot
 		var ingredientStr = this.event.request.intent.slots.Ingredients.value;
